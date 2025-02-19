@@ -1,0 +1,68 @@
+﻿@model IEnumerable<RealEstateCRM.Models.Property>
+
+@{
+    ViewData["Title"] = "Properties";
+}
+
+<h1>Properties</h1>
+
+<form method="get" asp-controller="Properties" asp-action="Index">
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <input type="text" class="form-control" placeholder="Search properties..." name="searchString" value="@ViewContext.HttpContext.Request.Query["searchString"]" />
+        </div>
+        <div class="col-md-2">
+            <input type="number" step="0.01" class="form-control" placeholder="Min Price" name="minPrice" value="@ViewContext.HttpContext.Request.Query["minPrice"]" />
+        </div>
+        <div class="col-md-2">
+            <input type="number" step="0.01" class="form-control" placeholder="Max Price" name="maxPrice" value="@ViewContext.HttpContext.Request.Query["maxPrice"]" />
+        </div>
+        <div class="col-md-2">
+            <input type="text" class="form-control" placeholder="Property Type" name="propertyType" value="@ViewContext.HttpContext.Request.Query["propertyType"]" />
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-outline-secondary" type="submit">Search</button>
+        </div>
+    </div>
+</form>
+
+<p>
+    @* The Add button is only visible to authorized users *@
+    @if (User.IsInRole("Admin") || User.IsInRole("Agent"))
+    {
+        <a asp-action="Create" class="btn btn-primary">Add New Property</a>
+    }
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Title)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().City)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().State)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Price)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ListingDate)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                <td>@Html.DisplayFor(modelItem => item.City)</td>
+                <td>@Html.DisplayFor(modelItem => item.State)</td>
+                <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                <td>@Html.DisplayFor(modelItem => item.ListingDate)</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    @if (User.IsInRole("Admin") || User.IsInRole("Agent"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

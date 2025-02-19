@@ -1,0 +1,32 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@* 
+    This partial view shows the login links if the user is not authenticated,
+    and a greeting with a Logout button if the user is logged in.
+*@
+@if (SignInManager.IsSignedIn(User))
+{
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <span class="navbar-text">Hello, @User.Identity.Name!</span>
+            </li>
+            <li class="nav-item">
+                <form id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" method="post" class="form-inline">
+                    <button type="submit" class="nav-link btn btn-link">Logout</button>
+                </form>
+            </li>
+        </ul>
+}
+else
+{
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a>
+            </li>
+        </ul>
+}

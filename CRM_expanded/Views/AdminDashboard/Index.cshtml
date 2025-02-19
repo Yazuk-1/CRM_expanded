@@ -1,0 +1,28 @@
+﻿@model IEnumerable<RealEstateCRM.ViewModels.UserRoleViewModel>
+@{
+    ViewData["Title"] = "Admin Dashboard - Manage User Roles";
+}
+
+<h1>Manage User Roles</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Roles</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>@string.Join(", ", user.Roles)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@user.UserId" class="btn btn-sm btn-primary">Edit Roles</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
